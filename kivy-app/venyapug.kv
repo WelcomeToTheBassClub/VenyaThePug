@@ -1,0 +1,134 @@
+#:import Factory kivy.factory.Factory
+
+
+<CustomDropDown@DropDown>:
+    Button:
+        text: 'My first Item'
+        size_hint_y: None
+        height: 44
+        on_release: root.select(self.text)
+    Label:
+        text: 'Unselectable item'
+        size_hint_y: None
+        height: 44
+    Button:
+        text: 'My second Item'
+        size_hint_y: None
+        height: 44
+        on_release: root.select(self.text)
+
+
+<MyPopup@Popup>:
+    auto_dismiss: False
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            size_hint_y: 5
+        Button:
+            text: 'Close me!'
+            size_hint_y: 1
+            on_release: root.dismiss()
+
+
+<BackgroundColor@Widget>
+    background_color: 30/255, 155/255, 180/255, 1
+    canvas.before:
+        Color:
+            rgba: root.background_color
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+
+<CustomLabel@Label+BackgroundColor>
+    background_color: 151/255, 247/255, 124/255, 0.5
+
+<CustomBoxLayout@BoxLayout+BackgroundColor>
+
+
+<CustomGridLayout@GridLayout+BackgroundColor>
+
+
+<Interface>:
+    BoxLayout:
+        orientation: 'vertical'
+        CustomBoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: 1
+            BoxLayout:
+                size_hint_x: 3
+            Button:
+                size_hint_x: 1
+                text: 'Open popup'
+                on_release: Factory.MyPopup().open()
+        CustomBoxLayout:
+            orientation: 'vertical'
+            size_hint_y: 6
+            CustomLabel:
+                color: 0, 0, 0, 1
+                text: "data" * 100
+                text_size: self.size
+                valign: 'middle'
+                font_size: 0.1 * self.height
+        CustomBoxLayout:
+            orientation: 'vertical'
+            size_hint_y: 10
+            TextInput:
+                size_hint_y: 4
+                font_size: 0.2 * self.height
+                hint_text: "текст" * 100
+            CustomGridLayout:
+                size_hint_y: 6
+                cols: 2
+                rows: 2
+                Button:
+                    id: category_button
+                    on_release: category_drop_down.open(self)
+                    CustomDropDown:
+                        id: category_drop_down
+                        on_select: category_button.text = "{}".format(args[1])
+                Button:
+                Button:
+                    #on_release: root.about_me()
+                Button:
+                    #on_release: app.user.test()
+
+<LoginWindow>:
+    username: input_name.text
+    password: input_pwd.text
+    FloatLayout:
+        size: root.width, root.height
+        Label:
+            text: "NAME: "
+            size_hint : 0.2, 0.1
+            pos_hint : {"x":0.25, "top":0.9}
+        TextInput:
+            id: input_name
+            multiline :False
+            size_hint : 0.3, 0.1
+            pos_hint : {"x" : 0.45, "top" : 0.9}
+        Label:
+            text: "PASSWORD: "
+            size_hint : 0.2, 0.1
+            pos_hint : {"x" : 0.25, "top" : 0.7}
+        TextInput:
+            id: input_pwd
+            multiline :False
+            size_hint : 0.3, 0.1
+            pos_hint : {"x" : 0.45, "top" : 0.7}
+        Label:
+            text: root.fail_login_msg
+            size_hint: 0.2, 0.1
+            pos_hint: {"x" : 0.40, "top" : 0.5}
+        Button:
+            text: "LOGIN"
+            size_hint: 0.3, 0.1
+            pos_hint: {"x" : 0.33, "top" : 0.4}
+            on_release:
+                root.login()
+
+<P>:
+    Label:
+        text : "Please enter valid information"
+        size_hint : 0.2, 0.1
+        pos_hint : {"x" : 0.3, "top" : 0.8}
